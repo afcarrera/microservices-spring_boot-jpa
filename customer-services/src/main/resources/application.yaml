@@ -1,0 +1,27 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: customer-services
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/tcs_customers
+    username: root
+    password: 123456
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    showSql: true
+    properties:
+      format_sql: false
+      hibernate:
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        jdbc:
+          batch_size: 50
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false

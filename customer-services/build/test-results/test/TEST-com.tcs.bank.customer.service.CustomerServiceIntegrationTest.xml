@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.tcs.bank.customer.service.CustomerServiceIntegrationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-06-19T00:48:33" hostname="LAPTOP-6PKHNO1R" time="0.152">
+  <properties/>
+  <testcase name="testCreateCustomer()" classname="com.tcs.bank.customer.service.CustomerServiceIntegrationTest" time="0.152"/>
+  <system-out><![CDATA[19:48:27.447 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.tcs.bank.customer.service.CustomerServiceIntegrationTest]: CustomerServiceIntegrationTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+19:48:27.568 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.tcs.bank.customer.CustomerServicesApplication for test class com.tcs.bank.customer.service.CustomerServiceIntegrationTest
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.0)
+
+2024-06-18T19:48:28.004-05:00  INFO 6568 --- [customer-services] [    Test worker] c.t.b.c.s.CustomerServiceIntegrationTest : Starting CustomerServiceIntegrationTest using Java 17.0.9 with PID 6568 (started by lenovo in C:\Users\lenovo\Downloads\customer-services)
+2024-06-18T19:48:28.006-05:00  INFO 6568 --- [customer-services] [    Test worker] c.t.b.c.s.CustomerServiceIntegrationTest : No active profile set, falling back to 1 default profile: "default"
+2024-06-18T19:48:28.720-05:00  INFO 6568 --- [customer-services] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-18T19:48:28.785-05:00  INFO 6568 --- [customer-services] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 55 ms. Found 2 JPA repository interfaces.
+2024-06-18T19:48:30.439-05:00  INFO 6568 --- [customer-services] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-06-18T19:48:30.447-05:00  WARN 6568 --- [customer-services] [    Test worker] c.zaxxer.hikari.util.DriverDataSource    : Registered driver with driverClassName=com.mysql.jdbc.Driver was not found, trying direct instantiation.
+2024-06-18T19:48:30.653-05:00  INFO 6568 --- [customer-services] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5f1f0ee6
+2024-06-18T19:48:30.656-05:00  INFO 6568 --- [customer-services] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-06-18T19:48:30.716-05:00  INFO 6568 --- [customer-services] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-18T19:48:30.806-05:00  INFO 6568 --- [customer-services] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-06-18T19:48:30.858-05:00  INFO 6568 --- [customer-services] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-06-18T19:48:31.040-05:00  INFO 6568 --- [customer-services] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-18T19:48:31.151-05:00  WARN 6568 --- [customer-services] [    Test worker] org.hibernate.dialect.Dialect            : HHH000511: The 5.5.5 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2024-06-18T19:48:32.044-05:00  INFO 6568 --- [customer-services] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-18T19:48:32.047-05:00  INFO 6568 --- [customer-services] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-18T19:48:32.268-05:00  WARN 6568 --- [customer-services] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-18T19:48:33.033-05:00  INFO 6568 --- [customer-services] [    Test worker] c.t.b.c.s.CustomerServiceIntegrationTest : Started CustomerServiceIntegrationTest in 5.321 seconds (process running for 6.554)
+]]></system-out>
+  <system-err><![CDATA[Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+]]></system-err>
+</testsuite>
