@@ -41,8 +41,8 @@ public class CustomerService implements ICustomerService {
             customerDTO.setPerson(null);
         }
         CustomerEntity customerEntity = (CustomerEntity) MappingDTO.convertToEntity(customerDTO, CustomerEntity.class);
+        customerEntity.setStatus(Boolean.TRUE);
         CustomerDTO newCustomerDTO = new CustomerDTO();
-        customerDTO.setStatus(Boolean.TRUE);
         newCustomerDTO = (CustomerDTO) MappingDTO.convertToDto(
                 iCustomerRepository.save(customerEntity), newCustomerDTO);
         newCustomerDTO.setPerson(personDTO);
@@ -69,12 +69,8 @@ public class CustomerService implements ICustomerService {
     @Override
     public Collection<CustomerDTO> findAll() {
         List<CustomerEntity> allCustomerEntities = iCustomerRepository.findAll();
-        Collection<CustomerDTO> customerDTOS = allCustomerEntities.stream()
-                .map(customerEntity -> (CustomerDTO) MappingDTO.convertToDto(
-                        customerEntity, new CustomerDTO()))
-                .toList();
-        customerDTOS.forEach(customerDTO -> customerDTO.setPassword(null));
-        return customerDTOS;
+        thi
+
     }
 
     /**
@@ -83,13 +79,12 @@ public class CustomerService implements ICustomerService {
     @Override
     public CustomerDTO findById(String id) {
         CustomerEntity customerEntity = this.findCustomerEntityById(id);
-        if (Objects.isNull(customerEntity)){
+        if (Objects.isNull(customerEntity) || Boolean.FALSE.equals(customerEntity.isStatus())){
             throw new ResourceNotFoundException(NotFound.NOT_FOUND_CUSTOMER.toString());
         }
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO = (CustomerDTO) MappingDTO.convertToDto(
                 customerEntity, customerDTO);
-        customerDTO.setPassword(null);
         return customerDTO;
     }
 
@@ -99,6 +94,7 @@ public class CustomerService implements ICustomerService {
     @Override
     public void delete(String id) {
         CustomerDTO customerDTO = this.findById(id);
+        customerDTO.setPerson(null);
         customerDTO.setStatus(Boolean.FALSE);
         this.update(customerDTO);
     }

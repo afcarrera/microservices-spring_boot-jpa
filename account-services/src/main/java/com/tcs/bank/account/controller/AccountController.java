@@ -32,6 +32,7 @@ public class AccountController {
     @PutMapping("/{accountId}")
     public AccountDTO update(@PathVariable("accountId") String id, @RequestBody AccountDTO accountDTO) {
         accountDTO.setAccountId(id);
+        accountDTO.setStatus(Boolean.TRUE);
         return accountService.update(accountDTO);
     }
 

@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Transaction service implementation.
@@ -39,7 +36,7 @@ public class TransactionService implements ITransactionService {
     private IAccountService iAccountService;
 
     @Autowired
-    ICustomerConnector iCustomerConnector;
+    private ICustomerConnector iCustomerConnector;
 
     /**
      * {@inheritDoc}
@@ -55,9 +52,10 @@ public class TransactionService implements ITransactionService {
                 transactionDTO, TransactionEntity.class);
         TransactionDTO newTransactionDTO = new TransactionDTO();
         transactionEntity.setBalance(accountDTO.getInitialBalance() + transactionDTO.getAmount());
-        newTransactionDTO = (TransactionDTO) MappingDTO.convertToDto(iTransactionRepository.save(
+        transactionEntity.setDate(LocalDateTime.now());
+        newTransactionDTO = (TransactionDTO) MappingDTO.convertToDto(this.iTransactionRepository.save(
                 transactionEntity), newTransactionDTO);
-        updateAccountBalance(accountDTO, transactionDTO.getBalance());
+        updateAccountBalance(accountDTO, newTransactionDTO.getBalance());
         return newTransactionDTO;
     }
 
@@ -69,7 +67,7 @@ public class TransactionService implements ITransactionService {
         TransactionEntity transactionEntity = (TransactionEntity) MappingDTO.convertToEntity(
                 transactionDTO, TransactionEntity.class);
         TransactionDTO updatedTransactionDTO = new TransactionDTO();
-        updatedTransactionDTO = (TransactionDTO) MappingDTO.convertToDto(iTransactionRepository.save(
+        updatedTransactionDTO = (TransactionDTO) MappingDTO.convertToDto(this.iTransactionRepository.save(
                 transactionEntity), updatedTransactionDTO);
         return updatedTransactionDTO;
     }
@@ -79,14 +77,11 @@ public class TransactionService implements ITransactionService {
      */
     @Override
     public Collection<TransactionDTO> findAll() {
-        List<TransactionEntity> allTransactionEntities = iTransactionRepository.findAll();
-        List<TransactionDTO> transactionDTOs = new ArrayList<>();
-        for (TransactionEntity transactionEntity : allTransactionEntities) {
-            TransactionDTO transactionDTO = (TransactionDTO) MappingDTO.convertToDto(
-                    transactionEntity, new TransactionDTO());
-            transactionDTOs.add(transactionDTO);
-        }
-        return transactionDTOs;
+        List<TransactionEntity> allTransactionEntities = this.iTransactionRepository.findAll();
+        return allTransactionEntities.stream()
+                .map(transactionEntity -> (
+                        TransactionDTO) MappingDTO.convertToDto( transactionEntity, new TransactionDTO())
+                ).toList();
     }
 
     /**
@@ -94,7 +89,7 @@ public class TransactionService implements ITransactionService {
      */
     @Override
     public TransactionDTO findById(String id) {
-        TransactionEntity transactionEntity = findTransactionEntityById(id);
+        TransactionEntity transactionEntity = this.findTransactionEntityById(id);
         if (Objects.isNull(transactionEntity)) {
             throw new ResourceNotFoundException(NotFound.NOT_FOUND_TRANSACTION.toString());
         }
@@ -114,20 +109,23 @@ public class TransactionService implements ITransactionService {
     }
 
     @Override
-    public Collection<TransactionDTO> findByDateBetween(LocalDateTime startDate, LocalDateTime endDate, String customerId) {
-        Customer customer = iCustomerConnector.findById(customerId);
+    public Collection<TransactionDTO> findByDateBetween(
+            LocalDateTime startDate, LocalDateTime endDate, String customerId) {
+        Customer customer = this.iCustomerConnector.findById(customerId);
         List<TransactionEntity> allTransactionEntities =
                 (List<TransactionEntity>) this.iTransactionRepository.getByQueryDate(startDate, endDate, customerId);
-        Collection<TransactionDTO> allTransactions = allTransactionEntities.stream()
-                .map(transactionEntity -> (TransactionDTO) MappingDTO.convertToDto(
-                        transactionEntity, new TransactionDTO()))
-                .toList();
-        allTransactions.forEach((transactions) -> transactions.setCustomer(customer));
-        return allTransactions;
+        return allTransactionEntities.stream()
+                .sorted(Comparator.comparing(TransactionEntity::getDate))
+                .map(transactionEntity -> {
+                    TransactionDTO transactionDTO = (TransactionDTO) MappingDTO.convertToDto(
+                        transactionEntity, new TransactionDTO());
+                    transactionDTO.setCustomer(customer);
+                    return transactionDTO;
+                }).toList();
     }
 
     private TransactionEntity findTransactionEntityById(String id) {
-        return iTransactionRepository.findById(id).orElse(null);
+        return this.iTransactionRepository.findById(id).orElse(null);
     }
 
     private void updateAccountBalance(AccountDTO account, Double balance) {

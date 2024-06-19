@@ -13,7 +13,6 @@ import lombok.*;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PersonDTO implements IDTOEntity {
-    @JsonProperty(Constants.ID_LABEL)
     private String personId;
     private String name;
     private String gender;

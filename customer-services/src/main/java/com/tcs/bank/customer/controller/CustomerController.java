@@ -26,13 +26,16 @@ public class CustomerController {
 
     @GetMapping("/{customerId}")
     public CustomerDTO findById(@PathVariable("customerId") String id){
-        return this.iCustomerService.findById(id);
+        CustomerDTO customerDTO = this.iCustomerService.findById(id);
+        customerDTO.setPassword(null);
+        return customerDTO;
     }
 
     @PutMapping("/{customerId}")
     public CustomerDTO update(@PathVariable("customerId") String id, @RequestBody CustomerDTO customerDto)
             throws ResourceNotFoundException {
         customerDto.setCustomerId(id);
+        customerDto.setStatus(Boolean.TRUE);
         return this.iCustomerService.update(customerDto);
     }
 
