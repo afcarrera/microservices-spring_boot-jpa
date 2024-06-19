@@ -1,0 +1,9 @@
+spring:
+  config:
+    import: "configserver:"
+  cloud:
+    config:
+      uri: http://localhost:9100/
+      username: root
+      password: secret
+      name: gateway-service
