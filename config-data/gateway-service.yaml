@@ -18,8 +18,8 @@ spring:
         - id: customer-services
           uri: lb://customer-services
           predicates:
-            - Path=/**
+            - Path=/customer-services/**
         - id: account-services
-          uri: lb://account-services
+          uri: lb://account-services/account-services
           predicates:
-            - Path=/**
+            - Path=/account-services/**
