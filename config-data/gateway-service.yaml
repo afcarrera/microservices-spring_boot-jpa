@@ -1,0 +1,23 @@
+server:
+  port: 9900
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9200/eureka/
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: customer-services
+          uri: lb://customer-services
+          predicates:
+            - Path=*api/**
+        - id: account-services
+          uri: lb://account-services
+          predicates:
+            - Path=/api/**
