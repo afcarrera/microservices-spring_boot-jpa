@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "customer-services", fallback = CustomerHystrixFallbackFactory.class)
 public interface ICustomerConnector {
-    @GetMapping("api/v1/customers/{customerId}")
+    @GetMapping("customer-services/api/v1/customers/{customerId}")
     Customer findById(@PathVariable("customerId") String id);
 }
