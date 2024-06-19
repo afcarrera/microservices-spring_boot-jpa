@@ -16,10 +16,10 @@ spring:
           enabled: true
       routes:
         - id: customer-services
-          uri: http://customer-services
+          uri: lb://customer-services
           predicates:
             - Path=/**
         - id: account-services
-          uri: http://account-services
+          uri: lb://account-services
           predicates:
             - Path=/**
