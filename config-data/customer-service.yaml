@@ -25,3 +25,7 @@ spring:
         order_inserts: true
         order_updates: true
         generate_statistics: false
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8099/eureka/
