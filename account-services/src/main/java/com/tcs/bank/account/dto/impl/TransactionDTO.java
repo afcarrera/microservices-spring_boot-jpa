@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tcs.bank.account.common.Constants;
 import com.tcs.bank.account.dto.IDTOEntity;
+import com.tcs.bank.account.model.Customer;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -22,4 +23,5 @@ public class TransactionDTO implements IDTOEntity {
     private String transactionType;
     private Double amount;
     private Double balance;
+    private Customer customer;
 }

@@ -2,11 +2,13 @@ package com.tcs.bank.account.service.impl;
 
 import com.tcs.bank.account.common.Errors;
 import com.tcs.bank.account.common.NotFound;
+import com.tcs.bank.account.connector.ICustomerConnector;
 import com.tcs.bank.account.dto.impl.AccountDTO;
 import com.tcs.bank.account.dto.impl.TransactionDTO;
 import com.tcs.bank.account.entity.TransactionEntity;
 import com.tcs.bank.account.exception.ResourceNotFoundException;
 import com.tcs.bank.account.exception.ValidationException;
+import com.tcs.bank.account.model.Customer;
 import com.tcs.bank.account.repository.ITransactionRepository;
 import com.tcs.bank.account.service.IAccountService;
 import com.tcs.bank.account.service.ITransactionService;
@@ -35,6 +37,9 @@ public class TransactionService implements ITransactionService {
 
     @Autowired
     private IAccountService iAccountService;
+
+    @Autowired
+    ICustomerConnector iCustomerConnector;
 
     /**
      * {@inheritDoc}
@@ -108,12 +113,15 @@ public class TransactionService implements ITransactionService {
 
     @Override
     public Collection<TransactionDTO> findByDateBetween(LocalDateTime startDate, LocalDateTime endDate, String customerId) {
+        Customer customer = iCustomerConnector.findById(customerId);
         List<TransactionEntity> allTransactionEntities =
                 (List<TransactionEntity>) this.iTransactionRepository.getByQueryDate(startDate, endDate, customerId);
-        return allTransactionEntities.stream()
+        Collection<TransactionDTO> allTransactions = allTransactionEntities.stream()
                 .map(transactionEntity -> (TransactionDTO) MappingDTO.convertToDto(
                         transactionEntity, new TransactionDTO()))
                 .toList();
+        allTransactions.forEach((transactions) -> transactions.setCustomer(customer));
+        return allTransactions;
     }
 
     private TransactionEntity findTransactionEntityById(String id) {
