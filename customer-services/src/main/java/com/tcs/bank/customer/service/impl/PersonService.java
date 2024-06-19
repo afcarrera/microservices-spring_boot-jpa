@@ -2,7 +2,9 @@ package com.tcs.bank.customer.service.impl;
 
 import com.tcs.bank.customer.common.NotFound;
 import com.tcs.bank.customer.dto.common.MappingDTO;
+import com.tcs.bank.customer.dto.impl.CustomerDTO;
 import com.tcs.bank.customer.dto.impl.PersonDTO;
+import com.tcs.bank.customer.entity.CustomerEntity;
 import com.tcs.bank.customer.entity.PersonEntity;
 import com.tcs.bank.customer.exception.ResourceNotFoundException;
 import com.tcs.bank.customer.repository.IPersonRepository;
@@ -53,15 +55,10 @@ public class PersonService implements IPersonService {
     @Override
     public Collection<PersonDTO> findAll() {
         List<PersonEntity> allPersonEntities = iPersonRepository.findAll();
-        List<PersonDTO> personDTOS  = new ArrayList<>();
         PersonDTO personDTO;
-        for (PersonEntity personEntity : allPersonEntities){
-            personDTO = new PersonDTO();
-            personDTO = (PersonDTO) MappingDTO.convertToDto(
-                    personEntity, personDTO);
-            personDTOS.add(personDTO);
-        }
-        return personDTOS;
+        return allPersonEntities.stream()
+                .map(customerEntity -> (PersonDTO) MappingDTO.convertToDto( customerEntity, new PersonDTO()))
+                .toList();
     }
 
     /**

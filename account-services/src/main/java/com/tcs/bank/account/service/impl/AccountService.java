@@ -1,6 +1,7 @@
 package com.tcs.bank.account.service.impl;
 
 import com.tcs.bank.account.common.NotFound;
+import com.tcs.bank.account.connector.ICustomerConnector;
 import com.tcs.bank.account.dto.impl.AccountDTO;
 import com.tcs.bank.account.entity.AccountEntity;
 import com.tcs.bank.account.exception.ResourceNotFoundException;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,11 +27,15 @@ public class AccountService implements IAccountService {
     @Autowired
     private IAccountRepository accountRepository;
 
+    @Autowired
+    private ICustomerConnector iCustomerConnector;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public AccountDTO create(AccountDTO accountDTO) {
+        this.iCustomerConnector.findById(accountDTO.getCustomerId());
         AccountEntity accountEntity = (AccountEntity) MappingDTO.convertToEntity(accountDTO, AccountEntity.class);
         accountEntity.setStatus(Boolean.TRUE);
         AccountDTO newAccountDTO = new AccountDTO();

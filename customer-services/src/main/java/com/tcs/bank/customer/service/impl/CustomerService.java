@@ -69,8 +69,14 @@ public class CustomerService implements ICustomerService {
     @Override
     public Collection<CustomerDTO> findAll() {
         List<CustomerEntity> allCustomerEntities = iCustomerRepository.findAll();
-        thi
-
+        return allCustomerEntities.stream()
+                .filter(CustomerEntity::isStatus)
+                .map(customerEntity -> {
+                    CustomerDTO customerDTO = (CustomerDTO) MappingDTO.convertToDto( customerEntity, new CustomerDTO());
+                    customerDTO.setPassword(null);
+                    return customerDTO;
+                })
+                .toList();
     }
 
     /**
