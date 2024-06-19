@@ -69,14 +69,11 @@ public class CustomerService implements ICustomerService {
     @Override
     public Collection<CustomerDTO> findAll() {
         List<CustomerEntity> allCustomerEntities = iCustomerRepository.findAll();
-        List<CustomerDTO> customerDTOS  = new ArrayList<>();
-        CustomerDTO customerDTO;
-        for (CustomerEntity customerEntity : allCustomerEntities){
-            customerDTO = new CustomerDTO();
-            customerDTO = (CustomerDTO) MappingDTO.convertToDto(
-                    customerEntity, customerDTO);
-            customerDTOS.add(customerDTO);
-        }
+        Collection<CustomerDTO> customerDTOS = allCustomerEntities.stream()
+                .map(customerEntity -> (CustomerDTO) MappingDTO.convertToDto(
+                        customerEntity, new CustomerDTO()))
+                .toList();
+        customerDTOS.forEach(customerDTO -> customerDTO.setPassword(null));
         return customerDTOS;
     }
 
@@ -92,6 +89,7 @@ public class CustomerService implements ICustomerService {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO = (CustomerDTO) MappingDTO.convertToDto(
                 customerEntity, customerDTO);
+        customerDTO.setPassword(null);
         return customerDTO;
     }
 

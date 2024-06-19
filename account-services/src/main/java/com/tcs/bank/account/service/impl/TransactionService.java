@@ -49,13 +49,15 @@ public class TransactionService implements ITransactionService {
         if (transactionDTO.getAmount().compareTo(BigInteger.ZERO.doubleValue()) == BigInteger.ZERO.intValue()) {
             throw new ValidationException(Errors.INVALID_AMOUNT.toString());
         }
+        AccountDTO accountDTO = this.iAccountService.findById(transactionDTO.getAccountId());
+        this.validateAccountBalance(accountDTO, transactionDTO.getAmount());
         TransactionEntity transactionEntity = (TransactionEntity) MappingDTO.convertToEntity(
                 transactionDTO, TransactionEntity.class);
         TransactionDTO newTransactionDTO = new TransactionDTO();
-        AccountDTO accountDTO = this.iAccountService.findById(transactionDTO.getAccountId());
-        transactionEntity.setBalance(accountDTO.getInitialBalance());
+        transactionEntity.setBalance(accountDTO.getInitialBalance() + transactionDTO.getAmount());
         newTransactionDTO = (TransactionDTO) MappingDTO.convertToDto(iTransactionRepository.save(
                 transactionEntity), newTransactionDTO);
+        updateAccountBalance(accountDTO, transactionDTO.getBalance());
         return newTransactionDTO;
     }
 
@@ -126,6 +128,17 @@ public class TransactionService implements ITransactionService {
 
     private TransactionEntity findTransactionEntityById(String id) {
         return iTransactionRepository.findById(id).orElse(null);
+    }
+
+    private void updateAccountBalance(AccountDTO account, Double balance) {
+        account.setInitialBalance(balance);
+        this.iAccountService.update(account);
+    }
+
+    private void validateAccountBalance(AccountDTO account,  Double balance) {
+        if (balance + account.getInitialBalance() < BigInteger.ZERO.intValue()) {
+            throw new ValidationException(Errors.INVALID_TRANSACTION.toString());
+        }
     }
 
 }

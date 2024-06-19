@@ -2,7 +2,7 @@ package com.tcs.bank.account.common;
 
 public enum Errors {
     INVALID_AMOUNT("Transaction value must be non-zero"),
-    NOT_FOUND_TRANSACTION("Transaction not found.");
+    INVALID_TRANSACTION("Balance not available.");
 
     private final String errorMessage;
 

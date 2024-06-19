@@ -11,6 +11,13 @@ import org.springframework.web.context.request.WebRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handling(Exception exception, WebRequest request){
+        ErrorDetails errorDetails =
+                new ErrorDetails(LocalDate.now().atStartOfDay(), exception.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<Object> badRequestHandling(BadRequestException exception, WebRequest request){
         ErrorDetails errorDetails =
