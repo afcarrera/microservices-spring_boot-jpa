@@ -2,7 +2,8 @@ package com.tcs.bank.customer.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.UuidGenerator;
 
 
 /**
@@ -13,19 +14,16 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "persons")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class PersonEntity {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @UuidGenerator
     @Column(name = "person_id")
     private String personId;
 
@@ -34,10 +32,11 @@ public class PersonEntity {
 
     @Column(name = "gender")
     private String gender;
-    @Column(name = "age")
-    private int age;
 
-    @Column(name = "identification")
+    @Column(name = "age")
+    private short age;
+
+    @Column(name = "identification", unique = true)
     private String identification;
 
     @Column(name = "address")
@@ -45,7 +44,4 @@ public class PersonEntity {
 
     @Column(name = "phone")
     private String phone;
-
-    @OneToOne(mappedBy = "person")
-    private CustomerEntity customer;
 }

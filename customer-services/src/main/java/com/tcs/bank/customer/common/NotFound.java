@@ -1,6 +1,5 @@
 package com.tcs.bank.customer.common;
 
-
 /**
  * NotFound enum
  *

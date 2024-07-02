@@ -1,14 +1,15 @@
 package com.tcs.bank.customer.service.impl;
 
+import com.tcs.bank.customer.common.Conflict;
 import com.tcs.bank.customer.common.NotFound;
 import com.tcs.bank.customer.dto.common.MappingDTO;
-import com.tcs.bank.customer.dto.impl.CustomerDTO;
 import com.tcs.bank.customer.dto.impl.PersonDTO;
-import com.tcs.bank.customer.entity.CustomerEntity;
 import com.tcs.bank.customer.entity.PersonEntity;
 import com.tcs.bank.customer.exception.ResourceNotFoundException;
+import com.tcs.bank.customer.exception.ValidationException;
 import com.tcs.bank.customer.repository.IPersonRepository;
 import com.tcs.bank.customer.service.IPersonService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class PersonService implements IPersonService {
      */
     @Override
     public PersonDTO create(PersonDTO personDTO) {
+        this.validateUniqueIdentification(personDTO.getIdentification());
         PersonEntity personEntity = (PersonEntity) MappingDTO.convertToEntity(personDTO, PersonEntity.class);
         PersonDTO newPersonDTO = new PersonDTO();
         newPersonDTO = (PersonDTO) MappingDTO.convertToDto(
@@ -41,7 +43,10 @@ public class PersonService implements IPersonService {
      * {@inheritDoc}
      */
     @Override
-    public PersonDTO update(PersonDTO personDTO) {
+    public PersonDTO update(PersonDTO personDTOToUpdate) {
+        PersonDTO personDTO = this.findById(personDTOToUpdate.getPersonId());
+        BeanUtils.copyProperties(personDTO, personDTOToUpdate);
+        this.validateUniqueIdentification(personDTO.getIdentification());
         PersonEntity personEntity = (PersonEntity) MappingDTO.convertToEntity(personDTO, PersonEntity.class);
         PersonDTO updatedPersonDTO = new PersonDTO();
         updatedPersonDTO = (PersonDTO) MappingDTO.convertToDto(
@@ -55,7 +60,6 @@ public class PersonService implements IPersonService {
     @Override
     public Collection<PersonDTO> findAll() {
         List<PersonEntity> allPersonEntities = iPersonRepository.findAll();
-        PersonDTO personDTO;
         return allPersonEntities.stream()
                 .map(customerEntity -> (PersonDTO) MappingDTO.convertToDto( customerEntity, new PersonDTO()))
                 .toList();
@@ -67,9 +71,6 @@ public class PersonService implements IPersonService {
     @Override
     public PersonDTO findById(String id) {
         PersonEntity personEntity = this.findPersonEntityById(id);
-        if (Objects.isNull(personEntity)){
-            throw new ResourceNotFoundException(NotFound.NOT_FOUND_PERSON.toString());
-        }
         PersonDTO personDTO = new PersonDTO();
         personDTO = (PersonDTO) MappingDTO.convertToDto(
                 personEntity, personDTO);
@@ -81,14 +82,35 @@ public class PersonService implements IPersonService {
      */
     @Override
     public void delete(String id) {
-        PersonDTO personDTO = this.findById(id);
-        PersonEntity personEntity = (PersonEntity) MappingDTO.convertToEntity(
-                personDTO, PersonEntity.class);
-        this.iPersonRepository.delete(personEntity);
+        this.iPersonRepository.deleteById(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public PersonDTO findByIdentification(String identification) {
+        PersonEntity personEntity = this.findPersonEntityByIdentification(identification);
+        PersonDTO personDTO = new PersonDTO();
+        personDTO = (PersonDTO) MappingDTO.convertToDto(
+                personEntity, personDTO);
+        return personDTO;
     }
 
     private PersonEntity findPersonEntityById(String id){
-        Optional<PersonEntity> departmentEmployeeOptional = iPersonRepository.findById(id);
-        return departmentEmployeeOptional.orElse(null);
+        Optional<PersonEntity> personOptional = iPersonRepository.findById(id);
+        return personOptional.orElseThrow(() -> new ResourceNotFoundException(NotFound.NOT_FOUND_PERSON.toString()));
+    }
+
+    private PersonEntity findPersonEntityByIdentification(String id){
+        Optional<PersonEntity> personOptional = iPersonRepository.findByIdentification(id);
+        return personOptional.orElseThrow(() -> new ResourceNotFoundException(NotFound.NOT_FOUND_PERSON.toString()));
+    }
+
+    private void validateUniqueIdentification(String identification) {
+        Optional<PersonEntity> existingPerson = iPersonRepository.findByIdentification(identification);
+        if (existingPerson.isPresent()) {
+            throw new ValidationException(Conflict.GENERIC_PERSON_CONFLICT.toString());
+        }
     }
 }

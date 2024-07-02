@@ -50,4 +50,12 @@ public interface IPersonService {
      * @param id the unique identifier of the person to delete
      */
     void delete(String id);
+
+    /**
+     * Retrieves a person by their identifier.
+     *
+     * @param identification the identifier of the person to retrieve
+     * @return the person data transfer object if found
+     */
+    PersonDTO findByIdentification(String identification);
 }

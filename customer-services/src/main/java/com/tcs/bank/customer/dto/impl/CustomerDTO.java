@@ -1,22 +1,21 @@
 package com.tcs.bank.customer.dto.impl;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tcs.bank.customer.common.Constants;
 import com.tcs.bank.customer.dto.IDTOEntity;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CustomerDTO implements IDTOEntity {
-    @JsonProperty(Constants.ID_LABEL)
+public class CustomerDTO extends PersonDTO implements IDTOEntity {
     private String customerId;
-    private String personId;
+    @NotBlank(message = "Password cannot be blank")
     private String password;
+    @NotBlank(message = "Status cannot be blank")
     private boolean status;
-    private PersonDTO person;
 }

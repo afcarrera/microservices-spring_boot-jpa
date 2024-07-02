@@ -1,11 +1,12 @@
 package com.tcs.bank.customer.service.impl;
 
+import com.tcs.bank.customer.common.Conflict;
 import com.tcs.bank.customer.common.NotFound;
 import com.tcs.bank.customer.dto.common.MappingDTO;
 import com.tcs.bank.customer.dto.impl.CustomerDTO;
-import com.tcs.bank.customer.dto.impl.PersonDTO;
 import com.tcs.bank.customer.entity.CustomerEntity;
 import com.tcs.bank.customer.exception.ResourceNotFoundException;
+import com.tcs.bank.customer.exception.ValidationException;
 import com.tcs.bank.customer.repository.ICustomerRepository;
 import com.tcs.bank.customer.service.ICustomerService;
 import com.tcs.bank.customer.service.IPersonService;
@@ -32,20 +33,14 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public CustomerDTO create(CustomerDTO customerDTO) {
-        PersonDTO personDTO;
-        try{
-            personDTO = this.iPersonService.findById(customerDTO.getPersonId());
-        } catch (Exception exception){
-            personDTO = this.iPersonService.create(customerDTO.getPerson());
-            customerDTO.setPersonId(personDTO.getPersonId());
-            customerDTO.setPerson(null);
+        if (Boolean.FALSE.equals(this.isUniqueIdentification(customerDTO.getIdentification()))){
+            throw new ValidationException(Conflict.GENERIC_PERSON_CONFLICT.toString());
         }
         CustomerEntity customerEntity = (CustomerEntity) MappingDTO.convertToEntity(customerDTO, CustomerEntity.class);
         customerEntity.setStatus(Boolean.TRUE);
         CustomerDTO newCustomerDTO = new CustomerDTO();
         newCustomerDTO = (CustomerDTO) MappingDTO.convertToDto(
                 iCustomerRepository.save(customerEntity), newCustomerDTO);
-        newCustomerDTO.setPerson(personDTO);
         return newCustomerDTO;
     }
 
@@ -100,7 +95,6 @@ public class CustomerService implements ICustomerService {
     @Override
     public void delete(String id) {
         CustomerDTO customerDTO = this.findById(id);
-        customerDTO.setPerson(null);
         customerDTO.setStatus(Boolean.FALSE);
         this.update(customerDTO);
     }
@@ -108,5 +102,16 @@ public class CustomerService implements ICustomerService {
     private CustomerEntity findCustomerEntityById(String id){
         Optional<CustomerEntity> departmentEmployeeOptional = iCustomerRepository.findById(id);
         return departmentEmployeeOptional.orElse(null);
+    }
+
+    private boolean isUniqueIdentification(String identification) {
+        boolean isUniqueIdentification = Boolean.TRUE;
+        try{
+            this.iPersonService.findByIdentification(identification);
+            isUniqueIdentification = Boolean.FALSE;
+        }catch(Exception e){
+
+        }
+        return isUniqueIdentification;
     }
 }

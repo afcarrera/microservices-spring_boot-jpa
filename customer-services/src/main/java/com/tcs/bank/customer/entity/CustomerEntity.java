@@ -2,7 +2,8 @@ package com.tcs.bank.customer.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.UuidGenerator;
 
 /**
  * Customer entity.
@@ -12,33 +13,20 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "customers")
-public class CustomerEntity {
+public class CustomerEntity extends PersonEntity{
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @UuidGenerator
     @Column(name = "customer_id")
     private String customerId;
-
-    @Column(name = "person_id")
-    private String personId;
 
     @Column(name = "password")
     private String password;
 
     @Column(name = "status")
     private boolean status;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id",
-            insertable = false, updatable = false)
-    private PersonEntity person;
 }
