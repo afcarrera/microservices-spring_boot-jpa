@@ -43,7 +43,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"John New A Docker\",\r\n    \"gender\": \"Male\",\r\n    \"age\": \"25\",\r\n    \"identification\": \"6232222224\",\r\n    \"address\": \"123 Main St, Springfield, USA\",\r\n    \"phone\": \"1555123400\",\r\n  \"password\": \"secretpassword1\"\r\n}",
+							"raw": "{\r\n    \"name\": \"John New A Docker\",\r\n    \"genderTypeCode\": \"GNDER\",\r\n    \"genderValueCode\": \"MALE\",\r\n    \"age\": 25,\r\n    \"identification\": \"2232111629\",\r\n    \"address\": \"asdjoldajslkasjd alsdñlaskdñl\",\r\n    \"phone\": \"1555123060\",\r\n    \"password\": \"secretpassword1@A\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -71,7 +71,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"personId\": \"728b4161-4a69-4a4c-a420-9a243bbde6f9\",\r\n    \"status\": true,\r\n    \"password\": \"secretpassword1232434\",\r\n        \"identification\": \"6232222213\",\r\n    \"age\": 239,\r\n    \"phone\": \"9999999999\"\r\n}",
+							"raw": "{\r\n    \"genderValueCode\": \"FEMA\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -33,7 +33,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"code\": \"ACCTP\",\r\n    \"value\": \"Bank account types\"\r\n}",
+							"raw": "{\r\n    \"code\": \"TRX\",\r\n    \"value\": \"Bank account transactions\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -171,7 +171,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"typeId\": 7,\r\n    \"code\": \"SAVES\",\r\n    \"value\": \"Savings account\"\r\n}",
+							"raw": "{\r\n    \"typeId\": 2,\r\n    \"code\": \"DEPOS\",\r\n    \"value\": \"Deposit transaction\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -287,7 +287,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type\": {\r\n        \"code\": \"TRX\"\r\n    },\r\n    \"code\": \"WITHD\"\r\n}",
+							"raw": "{\r\n    \"typeCode\": \"ACCTP\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
