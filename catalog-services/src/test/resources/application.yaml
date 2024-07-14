@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+  webflux:
+    base-path: /catalog-services/api
+  application:
+    name: catalog-services
+eureka:
+  client:
+    enabled: false

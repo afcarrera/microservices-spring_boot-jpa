@@ -1,0 +1,9 @@
+spring:
+  config:
+    import: "configserver:"
+  cloud:
+    config:
+      uri: http://configserver:9100/
+      username: ${SECURITY_USER}
+      password: ${SECURITY_PASSWORD}
+      name: catalog-service
