@@ -1,0 +1,344 @@
+{
+	"info": {
+		"_postman_id": "76bcb5d0-b96b-4bca-b419-e24fafb080ac",
+		"name": "Catalogs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36404215"
+	},
+	"item": [
+		{
+			"name": "types",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    var response_json = pm.response.json();\r",
+									"    var typeId = response_json.typeId;\r",
+									"    pm.globals.set(\"typeId\", typeId);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"ACCTP\",\r\n    \"value\": \"Bank account types\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devenv}}/api/v1/types",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"value\": \"Bank account transactions\",\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devenv}}/api/v1/types/{{typeId}}",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"types",
+								"{{typeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{devenv}}/api/v1/types/{{typeId}}",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"types",
+								"{{typeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{devenv}}/api/v1/types",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{devenv}}/api/v1/types/{{typeId}}",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"types",
+								"{{typeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "values",
+			"item": [
+				{
+					"name": "Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    var response_json = pm.response.json();\r",
+									"    var valueId = response_json.valueId;\r",
+									"    pm.globals.set(\"valueId\", valueId);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typeId\": 7,\r\n    \"code\": \"SAVES\",\r\n    \"value\": \"Savings account\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devenv}}/api/v1/values",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"values"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typeId\": 1,\r\n    \"code\": \"CHECK\",\r\n    \"value\": \"Checking account\",\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devenv}}/api/v1/values/{{valueId}}",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"values",
+								"{{valueId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{devenv}}/api/v1/values/{{valueId}}",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"values",
+								"{{valueId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{devenv}}/api/v1/values",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"values"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{devenv}}/api/v1/values/{{valueId}}",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"values",
+								"{{valueId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GeByValueAndType",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": {\r\n        \"code\": \"TRX\"\r\n    },\r\n    \"code\": \"WITHD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devenv}}/api/v1/values/filtered",
+							"host": [
+								"{{devenv}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"values",
+								"filtered"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "devenv",
+			"value": "http://localhost:9900/catalog-services",
+			"type": "string"
+		}
+	]
+}
