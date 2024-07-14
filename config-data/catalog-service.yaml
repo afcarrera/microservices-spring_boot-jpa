@@ -1,5 +1,5 @@
 server:
-  port: 9002
+  port: ${SERVER_PORT}
   servlet:
     context-path: /catalog-services/api
 spring:
