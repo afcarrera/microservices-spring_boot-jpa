@@ -1,0 +1,38 @@
+server:
+  port: 9000
+  servlet:
+    context-path: /customer-services/api
+spring:
+  application:
+    name: customer-services
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    showSql: true
+    properties:
+      format_sql: false
+      hibernate:
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        jdbc:
+          batch_size: 50
+          batch_versioned_data: true
+        order_inserts: true
+        order_updates: true
+        generate_statistics: false
+        dialect: org.hibernate.dialect.MySQLDialect
+eureka:
+  instance:
+    hostname: ${EUREKA_INSTANCE_HOSTNAME}
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE}
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+    algorithm: ${JASYPT_ENCRYPTOR_ALGORITHM}

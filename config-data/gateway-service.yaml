@@ -1,0 +1,31 @@
+server:
+  port: 9900
+
+eureka:
+  instance:
+    hostname: ${EUREKA_INSTANCE_HOSTNAME}
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL_DEFAULT_ZONE}
+
+spring:
+  application:
+    name: gateway-services
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: customer-services
+          uri: lb://customer-services
+          predicates:
+            - Path=/customer-services/**
+        - id: account-services
+          uri: lb://account-services/account-services
+          predicates:
+            - Path=/account-services/**
+        - id: catalog-services
+          uri: lb://catalog-services/catalog-services
+          predicates:
+            - Path=/catalog-services/**
